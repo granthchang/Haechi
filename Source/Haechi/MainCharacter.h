@@ -70,6 +70,10 @@ protected:
 
 	void LookUpRate(float Rate);
 
+	void Crouching();
+
+	void StopCrouching();
+
 	void Sprinting();
 
 	void StopSprinting();

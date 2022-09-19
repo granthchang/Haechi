@@ -67,6 +67,9 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	// Crouching Keybind
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AMainCharacter::Crouching);
+	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &AMainCharacter::StopCrouching);
 
 	//Movement Input
 	PlayerInputComponent->BindAxis("MoveR/L", this, &AMainCharacter::MoveForward);
@@ -109,10 +112,24 @@ void AMainCharacter::LookUpRate(float Rate)
 	AddControllerPitchInput(Rate* BaseTurnRate* GetWorld()->GetDeltaSeconds());
 }
 
+void AMainCharacter::Crouching()
+{
+	TestMesh->SetRelativeScale3D(FVector(1, 0.75, 1));
+	UE_LOG(LogTemp, Warning, TEXT("Crouching"));
+	Crouch();
+}
+
+void AMainCharacter::StopCrouching()
+{
+	TestMesh->SetRelativeScale3D(FVector(1, 1, 1));
+	UE_LOG(LogTemp, Warning, TEXT("EndCrouch"));
+	UnCrouch();
+}
+
 void AMainCharacter::Sprinting()
 {
 	GetCharacterMovement()->MaxWalkSpeed = 1200.f;
-	UE_LOG(LogTemp, Warning, TEXT("SPringting"));
+	UE_LOG(LogTemp, Warning, TEXT("Sprinting"));
 }
 
 void AMainCharacter::StopSprinting()
